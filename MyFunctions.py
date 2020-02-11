@@ -14,27 +14,36 @@ import matplotlib.pyplot as plt # Used for CloseAllPlots.
 import tkinter # Used for GetFileAddresses and GetTxtAddresses.
 from tkinter import filedialog # Used for GetFileAddresses
 
-# Open a dialog for the user to select one or multiple files.
-def GetFileAddresses():
+def get_file_addresses():
+    """
+    Open a dialog for the user to select one or multiple files.
+    """
     tkinter.Tk().withdraw() # Prevent root winow from appearing.
     FileAddresses = filedialog.askopenfilenames()
     return(FileAddresses)
 
-# Open a dialog for the user to select one or multiple .txt files only.
-def GetTxtAddresses():
+def get_txt_addresses():
+    """
+    Open a dialog for the user to select one or multiple .txt files only.
+    """
     tkinter.Tk().withdraw() # Prevent root winow from appearing.
     TxtAddresses = filedialog.askopenfilenames(filetypes=(('text files', 'txt'),))
     return(TxtAddresses)
 
-# Read ascii data from a tuple of file addresses and output a list of lists.
-# Data format not important at this point, just getting all the data imported.
-def ReadTxtFilesToList(FileAddresses):
+def read_txt_files_to_lists(FileAddresses):
+    """
+    Read ascii data from a tuple of file addresses and output a list of lists.
+    Data format not important at this point, just getting all the data imported.
+    """
     OutputList = [open(
             FileAddresses[FileNumber], 'r', errors='ignore') for FileNumber in range(
                 len(FileAddresses))]
     return(OutputList)
 
-def ReadCSVsToList(FileAddresses, Delimiter, HeaderRows):
+def read_csvs_to_lists(FileAddresses, Delimiter, HeaderRows):
+    """
+    Read csv data from a tuple of file addresses and output a list of dataframes.
+    """
     OutputList = [pd.read_csv(FileAddresses[FileNumber],
                               sep = Delimiter,
                               header = HeaderRows,
@@ -42,10 +51,13 @@ def ReadCSVsToList(FileAddresses, Delimiter, HeaderRows):
                               ) for FileNumber in range(len(FileAddresses))]
     return(OutputList)
 
-# Separate out list of lists into separate matrices of numerical data.
-# Where each item in the list corresponds to the contents of a different file.
-# Can define the number of header rows to ignore.
-def ListsToMatrices(OutputList, HeaderRows):
+
+def lists_to_matrices(OutputList, HeaderRows):
+    """
+    Separate out list of lists into separate matrices of numerical data.
+    Where each item in the list corresponds to the contents of a different file.
+    Can define the number of header rows to ignore.
+    """    
     for FileNumber in range(len(OutputList)):
         TransferList = OutputList[FileNumber]  # Make a new list to transfer data.
         TransferArray = pd.DataFrame() # Array to handle data for each file.
@@ -62,14 +74,17 @@ def ListsToMatrices(OutputList, HeaderRows):
     return()
             
 # Close all plots.
-def CloseAllPlots():
+def close_all_plots():
+    """
+    Close all matplotlib plots.
+    """
     plt.close('all')
     plt.close()
     
 # CLear the console window.
-def ClearConsole():
+def clear_console():
+    """
+    Clear the console window.
+    """
     clear = lambda: os.system('cls')
     clear()
-     
-# Get current working directory.
-# Location = os.getcwd()
